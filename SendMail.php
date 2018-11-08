@@ -30,8 +30,8 @@ class SendMail
 			$this->mailerObj->Host = 'mail.all-toner.gr';
 			$this->mailerObj->Port = 587;
 			$this->mailerObj->SMTPAuth = true;
-			$this->mailerObj->Username = 'gil@all-toner.gr';
-			$this->mailerObj->Password = 'd3v3l0p3R';
+			$this->mailerObj->Username = '*****************';
+			$this->mailerObj->Password = '********';
 			$this->mailerObj->SMTPSecure = '';
 			$this->mailerObj->From = 'info@weblesson.info';
 			$this->mailerObj->FromName = 'Ahahahaha';
