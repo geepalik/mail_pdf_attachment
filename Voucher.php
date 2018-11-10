@@ -10,15 +10,15 @@ class Voucher extends PdfWrite
 {
 
 	private $mapData = array(
-		'full_name' => array("65","61.5"),
-		'number_of_reservations' => array("115","61.5"),
-		'table' => array("145","61.5"),
-		'date_of_reservation' => array("165","61.5"),
-		'club_name' => array("143","73"),
-		'club_address' => array("135","79"),
-		'open_time' => array("140","85"),
-		'price' => array("143","92"),
-		'singers' => array("130","97")
+		'full_name' => array("26","73.5"),
+		'number_of_reservations' => array("80","73.5"),
+		'table' => array("125","73.5"),
+		'date_of_reservation' => array("165","73.5"),
+		'club_name' => array("120","85"),
+		'club_address' => array("120","90"),
+		'open_time' => array("140","96.5"),
+		'price' => array("143","103"),
+		'singers' => array("120","109")
 	);
 
 	public function __construct( array $data, $filename, $export ) {
