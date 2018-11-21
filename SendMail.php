@@ -38,7 +38,7 @@ class SendMail
 			$this->mailerObj->SMTPAuth = true;
 			$this->mailerObj->Username = '***********';
 			$this->mailerObj->Password = '************';
-			$this->mailerObj->setFrom('orders@leylotyavan.co.il','Greek Nights');
+			$this->mailerObj->setFrom('****email***','Name');
 			$this->mailerObj->addAddress($this->userEmail);
 			$this->mailerObj->addBCC('********');
 			$this->mailerObj->CharSet = 'UTF-8';
