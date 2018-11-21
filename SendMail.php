@@ -15,10 +15,14 @@ class SendMail
 {
 
 	private $attachmentFile;
+	private $userEmail;
+	private $userName;
 	private $mailerObj;
 
-	public function __construct($attachmentFile)
+	public function __construct($attachmentFile, $userEMail, $userName)
 	{
+		$this->userEmail = $userEMail;
+		$this->userName = $userName;
 		$this->attachmentFile = $attachmentFile;
 		$this->mailerObj = new PHPMailer(true);
 	}
@@ -26,27 +30,29 @@ class SendMail
 	public function sendEmail()
 	{
 		try{
+			$body = file_get_contents("./message.html");
 			$this->mailerObj->isSMTP();
-			$this->mailerObj->Host = 'mail.all-toner.gr';
-			$this->mailerObj->Port = 587;
+			$this->mailerObj->Host = '************';
+			$this->mailerObj->SMTPSecure = 'ssl';
+			$this->mailerObj->Port = 465;
 			$this->mailerObj->SMTPAuth = true;
-			$this->mailerObj->Username = '*****************';
-			$this->mailerObj->Password = '********';
-			$this->mailerObj->SMTPSecure = '';
-			$this->mailerObj->From = 'info@weblesson.info';
-			$this->mailerObj->FromName = 'Ahahahaha';
-			$this->mailerObj->addAddress('gil.palikaras@gmail.com');
+			$this->mailerObj->Username = '***********';
+			$this->mailerObj->Password = '************';
+			$this->mailerObj->setFrom('orders@leylotyavan.co.il','Greek Nights');
+			$this->mailerObj->addAddress($this->userEmail);
+			$this->mailerObj->addBCC('********');
+			$this->mailerObj->CharSet = 'UTF-8';
 			$this->mailerObj->isHTML(true);
 			$this->mailerObj->addAttachment($this->attachmentFile);
-			$this->mailerObj->Subject = 'Your order voucher';
-			$this->mailerObj->Body = 'Sample text here';
+			$this->mailerObj->Subject = 'אישור הזמנה - Reservation Confirmation';
+			$this->mailerObj->MsgHTML($body);
+			$this->mailerObj->AltBody = "To view this message please use an HTML compatible email viewer";
 			$this->mailerObj->send();
 
-			echo "email was sent successfully!";
+			return true;
 
 		}catch (Exception $exception){
-			var_dump($exception->errorMessage());
-			die("----");
+			throw new \Exception($exception->errorMessage());
 		}
 	}
 }

@@ -7,19 +7,56 @@
  */
 require_once 'Voucher.php';
 require_once 'SendMail.php';
-$string = file_get_contents("data.json");
-$data = json_decode($string, true);
-//strtolower full name + random hash
+$params = $_REQUEST;
+if(empty($params['voucher_data']) || !$params['voucher_file_name'] || !$params['user_data']['email']){
+	$response = array(
+		"status" => "error",
+		"result" => "no data set or file name is empty or user email is empty"
+	);
+	http_response_code(500);
+	print json_encode($response);
+	exit;
+}
+
+$data = $params['voucher_data'];
 $pdfsFolder = 'pdfs/';
 $template = "voucher_template.pdf";
-$filename = $pdfsFolder."gil_palikaras_14.pdf";
-$pdfWrite = new Voucher($data,$template,$filename);
-$writeFile = $pdfWrite->writeDataToPdf();
+$filename = $pdfsFolder.$params['voucher_file_name'];
 
-if($writeFile){
-	echo "pdf file ".$filename." created!";
-	$sendMailObj = new SendMail($filename);
+
+try{
+	$pdfWrite = new Voucher($data,$template,$filename);
+	$writeFile = $pdfWrite->writeDataToPdf();
+
+}catch (Exception $exception){
+	$response = array(
+		"status" => "error",
+		"result" => "file ".$filename." could not be created"
+	);
+	http_response_code(500);
+	print json_encode($response);
+	exit;
+}
+
+try{
+	$sendMailObj = new SendMail($filename, $params['user_data']['email'], $data['client']['full_name']);
 	$sendMailObj->sendEmail();
-}else{
-	echo "error! file not found!";
+	unlink($filename);
+
+	$response = array(
+		"status" => "success",
+		"result" => "file ".$filename." was sent to email ".$params['user_data']['email']
+	);
+	http_response_code(200);
+	print json_encode($response);
+	exit;
+
+}catch (Exception $exception){
+	$response = array(
+		"status" => "error",
+		"result" => "file ".$filename." could not be send to email ".$params['user_data']['email']." : ".$exception->getMessage()
+	);
+	http_response_code(500);
+	print json_encode($response);
+	exit;
 }
