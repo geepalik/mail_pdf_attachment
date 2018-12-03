@@ -45,6 +45,9 @@ class Voucher extends PdfWrite
 		return $this->mapData[$key];
 	}
 
+	/**
+	 * @return bool|mixed|string
+	 */
 	public function writeDataToPdf()
 	{
 		try{

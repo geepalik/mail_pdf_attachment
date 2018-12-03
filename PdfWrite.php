@@ -52,6 +52,10 @@ abstract class PdfWrite
 		}
 	}
 
+	/**
+	 * @param array $coords
+	 * @param $string
+	 */
 	protected function writeData(array $coords, $string)
 	{
 		$string = iconv('utf-8','cp1252',$string);
