@@ -46,7 +46,7 @@ class Voucher extends PdfWrite
 	}
 
 	/**
-	 * @return bool|mixed|string
+	 * @return bool|mixed
 	 */
 	public function writeDataToPdf()
 	{

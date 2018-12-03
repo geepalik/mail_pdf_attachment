@@ -63,6 +63,7 @@ abstract class PdfWrite
 		$this->pdfClass->Write(0,$string);
 	}
 
+	
 	/**
 	 * @return mixed
 	 */
