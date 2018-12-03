@@ -18,6 +18,13 @@ abstract class PdfWrite
 	protected $exportFileName;
 	protected $pdfClass;
 
+	/**
+	 * PdfWrite constructor.
+	 *
+	 * @param array $data
+	 * @param $filename
+	 * @param $export
+	 */
 	public function __construct(array $data, $filename, $export)
 	{
 		$this->data = $data;
@@ -47,12 +54,19 @@ abstract class PdfWrite
 
 	protected function writeData(array $coords, $string)
 	{
+		$string = iconv('utf-8','cp1252',$string);
 		$this->pdfClass->SetXY($coords[0],$coords[1]);
 		$this->pdfClass->Write(0,$string);
 	}
 
+	/**
+	 * @return mixed
+	 */
 	abstract public function writeDataToPdf();
 
+	/**
+	 * @return bool
+	 */
 	public function checkIfFileExists()
 	{
 		return file_exists($this->exportFileName);
