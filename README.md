@@ -1,6 +1,6 @@
 # mail_pdf_attachment
 
-REST API Service I built to generate PDF files by the data it receives.
+Web Service I built to generate PDF files by the data it receives.
 
 Contains base abstract class PdfWrite and child class Voucher to generate voucher based on template.
 
