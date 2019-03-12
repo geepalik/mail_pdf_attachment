@@ -6,13 +6,13 @@
  * Time: 7:33
  */
 require_once 'PdfWrite.php';
-class Voucher extends PdfWrite
+class ShowVoucher extends PdfWrite
 {
 
 	/**
 	 * @var array
 	 */
-	private $mapData = array(
+	protected $mapData = array(
 		'full_name' => array("20","73.5"),
 		'number_of_reservations' => array("85","73.5"),
 		'table' => array("120","73.5"),
@@ -25,28 +25,26 @@ class Voucher extends PdfWrite
 	);
 
 	/**
-	 * Voucher constructor.
+	 * ShowVoucher constructor.
 	 *
 	 * @param array $data
-	 * @param $filename
 	 * @param $export
-	 */
-	public function __construct( array $data, $filename, $export ) {
-		parent::__construct( $data, $filename, $export );
-	}
-
-	/**
-	 * @param $key
 	 *
-	 * @return mixed
+	 * @throws Exception
 	 */
-	private function mapDataLocation($key)
+	public function __construct( array $data, $export )
 	{
-		return $this->mapData[$key];
+		try{
+			$this->templateFileName = "voucher_template.pdf";
+			parent::__construct( $data, $export );
+		}catch (Exception $exception){
+			throw new Exception($exception->getMessage());
+		}
 	}
 
 	/**
 	 * @return bool|mixed
+	 * @throws Exception
 	 */
 	public function writeDataToPdf()
 	{
@@ -76,7 +74,7 @@ class Voucher extends PdfWrite
 			return $this->checkIfFileExists();
 
 		}catch (Exception $exception){
-			return $exception->getMessage();
+			throw new Exception($exception->getMessage());
 		}
 	}
 }

@@ -13,34 +13,40 @@ require __DIR__ . '/vendor/autoload.php';
 
 abstract class PdfWrite
 {
+	const EXPORT_FOLDER = 'pdfs/';
+
 	protected $data = array();
-	protected $filename;
+	protected $templateFileName;
 	protected $exportFileName;
 	protected $pdfClass;
+	protected $mapData = array();
 
 	/**
 	 * PdfWrite constructor.
 	 *
 	 * @param array $data
-	 * @param $filename
 	 * @param $export
+	 *
+	 * @throws Exception
 	 */
-	public function __construct(array $data, $filename, $export)
+	public function __construct(array $data, $export)
 	{
 		$this->data = $data;
-		$this->filename = $filename;
 		$this->exportFileName = $export;
 		$this->pdfClass = new Fpdi();
 		$this->initPdf();
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	private function initPdf()
 	{
 		$this->pdfClass->AddPage();
 		try{
-			$this->pdfClass->setSourceFile($this->filename);
+			$this->pdfClass->setSourceFile($this->templateFileName);
 		}catch ( PdfParserException $pdfException){
-			echo "Pdf Error: ".$pdfException;
+			throw new Exception($pdfException->getMessage());
 		}
 		try{
 			$template = $this->pdfClass->importPage(1);
@@ -48,7 +54,7 @@ abstract class PdfWrite
 			$this->pdfClass->SetFont('Helvetica','',14); // Font Name, Font Style (eg. 'B' for Bold), Font Size
 			$this->pdfClass->SetTextColor(0,0,0); // RGB
 		}catch (Exception $exception){
-			echo "Error: ".$exception;
+			throw new Exception($exception->getMessage());
 		}
 	}
 
@@ -75,5 +81,15 @@ abstract class PdfWrite
 	public function checkIfFileExists()
 	{
 		return file_exists($this->exportFileName);
+	}
+
+	/**
+	 * @param $key
+	 *
+	 * @return mixed
+	 */
+	protected function mapDataLocation($key)
+	{
+		return $this->mapData[$key];
 	}
 }
