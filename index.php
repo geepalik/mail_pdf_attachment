@@ -45,7 +45,17 @@ try{
 }
 
 try{
-	$sendMailObj = new SendMail($filename, $params['user_data']['email'], $data['client']['full_name']);
+	if($params['booking_type'] == 'show'){
+		$messageContent = "./message.html";
+	}elseif ($params['booking_type'] == 'service'){
+		$messageContent = "./service_transport_message.html";
+	}
+	$sendMailObj = new SendMail(
+		$filename,
+		$params['user_data']['email'],
+		$data['client']['full_name'],
+		$messageContent
+	);
 	$sendMailObj->sendEmail();
 	unlink($filename);
 

@@ -18,19 +18,33 @@ class SendMail
 	private $userEmail;
 	private $userName;
 	private $mailerObj;
+	private $messageContent;
 
-	public function __construct($attachmentFile, $userEMail, $userName)
+	/**
+	 * SendMail constructor.
+	 *
+	 * @param $attachmentFile
+	 * @param $userEMail
+	 * @param $userName
+	 * @param $messageContent
+	 */
+	public function __construct($attachmentFile, $userEMail, $userName, $messageContent)
 	{
 		$this->userEmail = $userEMail;
 		$this->userName = $userName;
 		$this->attachmentFile = $attachmentFile;
+		$this->messageContent = $messageContent;
 		$this->mailerObj = new PHPMailer(true);
 	}
 
+	/**
+	 * @return bool
+	 * @throws \Exception
+	 */
 	public function sendEmail()
 	{
 		try{
-			$body = file_get_contents("./message.html");
+			$body = file_get_contents($this->messageContent);
 			$this->mailerObj->isSMTP();
 			$this->mailerObj->Host = '************';
 			$this->mailerObj->SMTPSecure = 'ssl';
