@@ -12,7 +12,7 @@ class VoucherFactory
 	 * @param array $data
 	 * @param $export
 	 *
-	 * @return ServiceVoucher|ShowVoucher
+	 * @return ServiceVoucher|ShowVoucher|TransferVoucher
 	 * @throws Exception
 	 */
 	public static function generateVoucher($bookingType, array $data, $export)
@@ -23,6 +23,9 @@ class VoucherFactory
 				break;
 			case 'service':
 				return new ServiceVoucher($data, $export);
+				break;
+			case 'transfer':
+				return new TransferVoucher($data, $export);
 				break;
 			default:
 				throw new Exception("Unknown booking type data passed: ".$bookingType);

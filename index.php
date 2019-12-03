@@ -8,6 +8,7 @@
 require_once 'VoucherFactory.php';
 require_once 'ShowVoucher.php';
 require_once 'ServiceVoucher.php';
+require_once 'TransferVoucher.php';
 require_once 'SendMail.php';
 $params = $_REQUEST;
 if(
@@ -47,7 +48,10 @@ try{
 try{
 	if($params['booking_type'] == 'show'){
 		$messageContent = "./message.html";
-	}elseif ($params['booking_type'] == 'service'){
+	}elseif (
+		$params['booking_type'] == 'service' ||
+		$params['booking_type'] == 'transfer'
+	){
 		$messageContent = "./service_transport_message.html";
 	}
 	$sendMailObj = new SendMail(
