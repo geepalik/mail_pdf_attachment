@@ -20,6 +20,7 @@ abstract class PdfWrite
 	protected $exportFileName;
 	protected $pdfClass;
 	protected $mapData = array();
+	protected $fontSize = 14;
 
 	/**
 	 * PdfWrite constructor.
@@ -51,7 +52,7 @@ abstract class PdfWrite
 		try{
 			$template = $this->pdfClass->importPage(1);
 			$this->pdfClass->useTemplate($template, 0, 0, 210, 297);
-			$this->pdfClass->SetFont('Helvetica','',8); // Font Name, Font Style (eg. 'B' for Bold), Font Size
+			$this->pdfClass->SetFont('Helvetica','',$this->fontSize); // Font Name, Font Style (eg. 'B' for Bold), Font Size
 			$this->pdfClass->SetTextColor(0,0,0); // RGB
 		}catch (Exception $exception){
 			throw new Exception($exception->getMessage());

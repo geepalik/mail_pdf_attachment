@@ -21,6 +21,7 @@ class TransferVoucher extends PdfWrite
 	{
 		try{
 			$this->templateFileName = "transfer_voucher_template.pdf";
+			$this->fontSize = 8;
 			parent::__construct( $data, $export );
 		}catch (Exception $exception){
 			throw new Exception($exception->getMessage());
